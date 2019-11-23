@@ -4,8 +4,7 @@ import unittest
 from results_view import ResultsView
 
 
-class TestRender(unittest.TestCase):
-
+class TestResultsView(unittest.TestCase):
     def test_render(self):
         result = {"oleg": 5, "ivan": 6}
         template = "{{#heroes}}{{name}},{{count}}:{{/heroes}}{{today}}"
