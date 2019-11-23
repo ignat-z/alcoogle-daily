@@ -9,23 +9,20 @@ from telethon.tl.types import InputMessagesFilterPhotoVideo
 import render
 import boto3
 
-SOURCE_FILENAME = 'index.html'
-
 env.read_envfile()
 
 BUCKET_NAME = env("BUCKET_NAME")
-channel = env("CHANNEL_NAME")
-api_id = int(env("TELEGRAM_API_ID"))
-api_hash = env("TELEGRAM_API_HASH")
+CHANNEL_NAME = env("CHANNEL_NAME")
+API_ID = int(env("TELEGRAM_API_ID"))
+API_HASH = env("TELEGRAM_API_HASH")
+SOURCE_FILENAME = 'index.html'
+TODAY = datetime.now().strftime('%Y-%m-%d')
 
-today = datetime.now().strftime('%Y-%m-%d')
-
-client = TelegramClient('session_name', api_id, api_hash)
+client = TelegramClient('session_name', API_ID, API_HASH)
 client.start()
 
 def write_stats(result):
-    today = datetime.now().strftime('%Y-%m-%d')
-    filename = today + ".json"
+    filename = TODAY + ".json"
     current = open(filename, "w")
     current.write(json.dumps(result))
     current.close()
@@ -33,7 +30,7 @@ def write_stats(result):
 async def main():
     result = {}
     non_archived = await client.get_dialogs(archived=False)
-    chat = next(dialog for dialog in non_archived if dialog.title == channel)
+    chat = next(dialog for dialog in non_archived if dialog.title == CHANNEL_NAME)
 
     async for message in client.iter_messages(chat.id, filter=InputMessagesFilterPhotoVideo):
         if not message.post_author in result: result[message.post_author] = 0
