@@ -6,7 +6,7 @@ from envparse import env
 from telethon import TelegramClient
 from telethon.tl.types import InputMessagesFilterPhotoVideo
 
-import render
+from results_view import ResultsView
 
 env.read_envfile()
 
@@ -41,7 +41,7 @@ async def main():
     write_stats(result)
 
     index = open(SOURCE_FILENAME, "w")
-    index.write(render.render(result))
+    index.write(ResultsView().render(result))
     index.close()
 
     S3 = boto3.client('s3')
