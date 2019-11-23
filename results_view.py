@@ -33,13 +33,13 @@ class ResultsView():
 
     def render(self, result, template=TEMPLATE):
         heroes = sorted(result.items(), key=operator.itemgetter(1), reverse=True)
-        return self.__render_text__(template, {
-            'heroes': list(map(self.__present_hero__, heroes)),
+        return self.__render_text(template, {
+            'heroes': list(map(self.__present_hero, heroes)),
             'today': self.today.strftime('%Y-%m-%d'),
         })
 
-    def __present_hero__(self, pair):
+    def __present_hero(self, pair):
         return {'name': pair[0], 'count': pair[1]}
 
-    def __render_text__(self, template, ctx):
+    def __render_text(self, template, ctx):
         return pystache.render(template, ctx)
