@@ -2,4 +2,4 @@
 *.session
 index.html
 __pycache__/
-history/
+history/*.json
