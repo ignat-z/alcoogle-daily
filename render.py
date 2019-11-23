@@ -1,5 +1,6 @@
-from datetime import datetime
 import operator
+from datetime import datetime
+
 import pystache
 
 TEMPLATE = r"""
@@ -25,16 +26,17 @@ TEMPLATE = r"""
 </html>
 """
 
+
 def render(result):
     heroes = sorted(result.items(), key=operator.itemgetter(1), reverse=True)
     return render_text({
         'heroes': list(map(present_hero, heroes)),
-        'today': datetime.now().strftime('%Y-%m-%d')
+        'today': datetime.now().strftime('%Y-%m-%d'),
     })
 
 
 def present_hero(pair):
-    return {'name': pair[0], 'count': pair[1] }
+    return {'name': pair[0], 'count': pair[1]}
 
 
 def render_text(ctx):
@@ -46,7 +48,7 @@ VALUES = {
   'heroes': [
     {'name': 'John', 'count': 3},
     {'name': 'Oleg', 'count': 5},
-  ]
+  ],
 }
 
 # print()
