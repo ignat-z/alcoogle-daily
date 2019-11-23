@@ -2,16 +2,21 @@ import json
 
 from collections import ChainMap
 from datetime import datetime
+from envparse import env
 from telethon import TelegramClient, events, sync
 from telethon.tl.types import InputMessagesFilterPhotoVideo
 
 import render
 import boto3
 
+SOURCE_FILENAME = 'index.html'
 
-channel = "A"
-api_id = 1
-api_hash = 'c'
+env.read_envfile()
+
+BUCKET_NAME = env("BUCKET_NAME")
+channel = env("CHANNEL_NAME")
+api_id = int(env("TELEGRAM_API_ID"))
+api_hash = env("TELEGRAM_API_HASH")
 
 today = datetime.now().strftime('%Y-%m-%d')
 
@@ -24,9 +29,6 @@ def write_stats(result):
     current = open(filename, "w")
     current.write(json.dumps(result))
     current.close()
-
-SOURCE_FILENAME = 'index.html'
-BUCKET_NAME = 'alcoogle'
 
 async def main():
     result = {}
