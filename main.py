@@ -2,7 +2,7 @@ from collections import Counter
 
 from envparse import env
 from telethon import TelegramClient
-from telethon.tl.types import InputMessagesFilterPhotoVideo
+from telethon.tl.types import InputMessagesFilterPhotoVideo, InputMessagesFilterRoundVideo
 
 from results_s3 import ResultsS3
 from results_view import ResultsView
@@ -28,6 +28,8 @@ async def chat_id():
 async def main():
     result = Counter()
     async for message in client.iter_messages(await chat_id(), filter=InputMessagesFilterPhotoVideo):
+        result[message.post_author] += 1
+    async for message in client.iter_messages(await chat_id(), filter=InputMessagesFilterRoundVideo):
         result[message.post_author] += 1
 
     ResultsHistory().save(result)
